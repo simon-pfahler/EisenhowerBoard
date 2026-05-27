@@ -1,0 +1,29 @@
+<?xml version="1.0"?>
+<info xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	  xsi:noNamespaceSchemaLocation="https://apps.nextcloud.com/schema/apps/info.xsd">
+	<id>eisenhowerboard</id>
+	<name>Eisenhower Board</name>
+	<summary>Dynamic Eisenhower-matrix-like pinboard for tasks</summary>
+	<description>You like the Eisenhower matrix to organize your tasks?
+Using this app, you can provide an importance and a due date for you tasks and they will automatically placed accordingly on the board.
+Task position is updated dynamically to reflect the current urgency.</description>
+	<version>0.0.1</version>
+	<licence>AGPL-3.0-or-later</licence>
+	<author mail="simon@pfahler.online" homepage="https://simon-pfahler.github.io">Simon Pfahler</author>
+	<namespace>EisenhowerBoard</namespace>
+	<category>organization</category>
+	<bugs>https://github.com/simon-pfahler/EisenhowerBoard/issues</bugs>
+	<dependencies>
+		<nextcloud min-version="35" max-version="35"/>
+    </dependencies>
+    <default_enable />
+	<navigations>
+		<navigation>
+			<id>eisenhowerboard</id>
+			<name>Eisenhower Board</name>
+			<route>eisenhowerboard.page.index</route>
+			<icon>app.svg</icon>
+			<type>link</type>
+		</navigation>
+	</navigations>
+</info>
