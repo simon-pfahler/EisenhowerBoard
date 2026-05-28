@@ -14,7 +14,7 @@ Task position is updated dynamically to reflect the current urgency.</descriptio
 	<category>organization</category>
 	<bugs>https://github.com/simon-pfahler/EisenhowerBoard/issues</bugs>
 	<dependencies>
-		<nextcloud min-version="35" max-version="35"/>
+		<nextcloud min-version="33" max-version="35"/>
     </dependencies>
 	<navigations>
 		<navigation>
