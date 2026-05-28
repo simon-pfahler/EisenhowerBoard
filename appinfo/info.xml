@@ -16,7 +16,6 @@ Task position is updated dynamically to reflect the current urgency.</descriptio
 	<dependencies>
 		<nextcloud min-version="35" max-version="35"/>
     </dependencies>
-    <default_enable />
 	<navigations>
 		<navigation>
 			<id>eisenhowerboard</id>
