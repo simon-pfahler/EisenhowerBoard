@@ -21,10 +21,12 @@ class PageController extends Controller {
         parent::__construct($appName, $request);
     }
 	#[NoCSRFRequired]
-	#[NoAdminRequired]
+    #[NoAdminRequired]
+    #[OpenAPI(OpenAPI:SCOPE_IGNORE)]
 	#[FrontpageRoute(verb: 'GET', url: '/')]
 	public function index(): TemplateResponse {
-		return new TemplateResponse(
+        return new TemplateResponse(
+            Application::APP_ID,
             'index',
 		);
 	}
