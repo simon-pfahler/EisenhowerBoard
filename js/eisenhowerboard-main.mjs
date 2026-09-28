@@ -15826,7 +15826,7 @@ const {
 } = axios;
 const appId = "eisenhowerboard";
 function buildApiUrl(endpoint) {
-  return `/apps/${appId}/api/${endpoint}`;
+  return `/apps/${appId}/${endpoint}`;
 }
 async function ocsRequest(method, endpoint, data) {
   const url = buildApiUrl(endpoint);

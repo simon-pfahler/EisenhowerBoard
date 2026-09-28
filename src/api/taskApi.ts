@@ -18,7 +18,7 @@ const appId = 'eisenhowerboard'
  * Uses relative path to work within Nextcloud's proxy
  */
 function buildApiUrl(endpoint: string): string {
-	return `/apps/${appId}/api/${endpoint}`
+	return `/apps/${appId}/${endpoint}`
 }
 
 /**

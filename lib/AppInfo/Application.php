@@ -11,7 +11,7 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
-use OCP\AppFramework\Http\IUserSession;
+use OCP\IUserSession;
 use OCP\IDBConnection;
 use OCP\IL10N;
 
