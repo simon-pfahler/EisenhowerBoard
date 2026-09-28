@@ -1,8 +1,6 @@
 {
 	"name": "nextcloud/eisenhowerboard",
-	"description": "You like the Eisenhower matrix to organize your tasks?
-Using this app, you can provide an importance and a due date for you tasks and they will automatically placed accordingly on the board.
-Task position is updated dynamically to reflect the current urgency.",
+	"description": "You like the Eisenhower matrix to organize your tasks? Using this app, you can provide an importance and a due date for your tasks and they will automatically be placed accordingly on the board. Task position is updated dynamically to reflect the current urgency.",
 	"license": "AGPL-3.0-or-later",
 	"authors": [
 		{
@@ -13,8 +11,11 @@ Task position is updated dynamically to reflect the current urgency.",
 	],
 	"autoload": {
 		"psr-4": {
-			"OCA\\EisenhowerBoard\\": "lib/"
-		}
+			"OCA\\\\EisenhowerBoard\\\\": "lib/"
+		},
+		"classmap": [
+			"lib/"
+		]
 	},
 	"scripts": {
 		"post-install-cmd": [

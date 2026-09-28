@@ -26,7 +26,11 @@ class Version20250101000000 extends SimpleMigrationStep {
 		if (!$schema->hasTable('eisenhowerboard_tasks')) {
 			$table = $schema->createTable('eisenhowerboard_tasks');
 
-			$table->addAutoincrementColumn('id', 'bigint', true);
+			$table->addColumn('id', 'bigint', [
+				'autoincrement' => true,
+				'unsigned' => true,
+				'notnull' => true,
+			]);
 			$table->addColumn('user_id', 'string', [
 				'notnull' => true,
 				'length' => 64,
@@ -51,7 +55,7 @@ class Version20250101000000 extends SimpleMigrationStep {
 				'default' => '(now())',
 			]);
 
-			$table->addPrimaryKey(['id']);
+			$table->setPrimaryKey(['id']);
 			$table->addIndex(['user_id'], 'eisenhowerboard_tasks_user_id_idx');
 			$table->addIndex(['due_date'], 'eisenhowerboard_tasks_due_date_idx');
 

@@ -77,16 +77,23 @@ export async function getTasks(): Promise<Task[]> {
 
 /**
  * Create a new task
+ * Converts date string to ISO 8601 format if needed
  */
 export async function createTask(
 	description: string,
 	importance: number,
 	dueDate: string
 ): Promise<Task> {
+	// Convert YYYY-MM-DD to ISO 8601 format (YYYY-MM-DDTHH:mm:ss)
+	// If already in ISO format, use as-is
+	const formattedDueDate = dueDate.includes('T') 
+		? dueDate 
+		: `${dueDate}T00:00:00`
+	
 	return ocsRequest<Task>('post', 'api/tasks', {
 		description,
 		importance,
-		dueDate,
+		dueDate: formattedDueDate,
 	})
 }
 
@@ -99,6 +106,7 @@ export async function getTask(id: number): Promise<Task> {
 
 /**
  * Update an existing task
+ * Converts date string to ISO 8601 format if needed
  */
 export async function updateTask(
 	id: number,
@@ -108,7 +116,24 @@ export async function updateTask(
 		dueDate?: string
 	}
 ): Promise<Task> {
-	return ocsRequest<Task>('put', `api/tasks/${id}`, data)
+	// Convert YYYY-MM-DD to ISO 8601 format if provided
+	const formattedData: any = {}
+	
+	if (data.description !== undefined) {
+		formattedData.description = data.description
+	}
+	
+	if (data.importance !== undefined) {
+		formattedData.importance = data.importance
+	}
+	
+	if (data.dueDate !== undefined) {
+		formattedData.dueDate = data.dueDate.includes('T') 
+			? data.dueDate 
+			: `${data.dueDate}T00:00:00`
+	}
+	
+	return ocsRequest<Task>('put', `api/tasks/${id}`, formattedData)
 }
 
 /**
@@ -120,11 +145,12 @@ export async function deleteTask(id: number): Promise<void> {
 
 /**
  * Convert API task to frontend task format
+ * Adds a 'name' field that mirrors description for display purposes
  */
 export function apiTaskToFrontendTask(apiTask: Task): any {
 	return {
 		id: apiTask.id,
-		name: apiTask.description, // Map description to name for consistency
+		name: apiTask.description, // Map description to name for display
 		description: apiTask.description,
 		importance: apiTask.importance,
 		dueDate: new Date(apiTask.due_date),

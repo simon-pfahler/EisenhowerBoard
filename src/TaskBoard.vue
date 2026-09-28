@@ -15,6 +15,7 @@ const {
 	editTask,
 	removeTask,
 	openAddForm,
+	openEditForm,
 	closeForm,
 } = useTaskStore()
 
@@ -39,7 +40,7 @@ async function handleSubmit(formData: any) {
 			dueDate: formData.dueDate,
 		})
 	} else {
-		// Add new task
+		// Add new task - map name to description for API
 		await addTask(
 			formData.name,
 			formData.description,
@@ -140,7 +141,7 @@ function formatDueDate(date: Date): string {
 					<span class="task-importance">{{ task.importance }}/100</span>
 					<button @click.stop="removeTask(task.id)" class="btn-delete" title="Delete">×</button>
 				</div>
-				<div class="task-name">{{ task.name }}</div>
+				<div class="task-name">{{ task.name || task.description }}</div>
 				<div class="task-description">{{ task.description }}</div>
 				<div class="task-due">{{ formatDueDate(task.dueDate) }}</div>
 			</div>

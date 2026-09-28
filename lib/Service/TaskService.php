@@ -148,9 +148,12 @@ class TaskService {
 		$now = $now ?? new DateTime();
 		$dueDate = $task->getDueDate();
 
-		// Calculate days until due (signed)
-		$interval = $dueDate->diff($now);
-		$daysUntilDue = (float) $interval->format('%r%a');
+		// Calculate days until due using timestamps for accuracy
+		// DateInterval::format('%r%a') only counts full days, so we use timestamp difference
+		$timestampNow = $now->getTimestamp();
+		$timestampDue = $dueDate->getTimestamp();
+		$secondsUntilDue = $timestampDue - $timestampNow;
+		$daysUntilDue = $secondsUntilDue / (24 * 60 * 60); // Convert to days
 
 		// Use absolute value for log, then restore sign
 		$absDays = abs($daysUntilDue);

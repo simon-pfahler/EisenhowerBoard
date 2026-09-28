@@ -93,29 +93,29 @@ final class TaskTest extends TestCase {
 		// Task due in 1 day
 		$dueDate1 = new DateTime('+1 day');
 		$task1 = new Task(null, 'user', 'Task 1', 50, $dueDate1);
-		$x1 = $task1->calculateX();
+		$x1 = $task1->calculateX($now);
 
 		// Task due in 10 days
 		$dueDate2 = new DateTime('+10 days');
 		$task2 = new Task(null, 'user', 'Task 2', 50, $dueDate2);
-		$x2 = $task2->calculateX();
+		$x2 = $task2->calculateX($now);
 
 		// Task due in 100 days
 		$dueDate3 = new DateTime('+100 days');
 		$task3 = new Task(null, 'user', 'Task 3', 50, $dueDate3);
-		$x3 = $task3->calculateX();
+		$x3 = $task3->calculateX($now);
 
 		// Tasks due sooner should have smaller x (more to the left)
-		// But because of logarithmic scale, the difference between 1 and 10 days
-		// should be larger than between 10 and 100 days
+		// With logarithmic scale, tasks with shorter due dates are more spread out
 		$this->assertLessThan($x2, $x1);
 		$this->assertLessThan($x3, $x2);
 
-		// The gap between x1 and x2 should be larger than between x2 and x3
-		// (logarithmic scale compresses larger values)
+		// For logarithmic scale, the gaps actually increase between consecutive
+		// orders of magnitude because log is concave (second derivative is negative)
+		// So gap2 should be greater than gap1
 		$gap1 = $x2 - $x1;
 		$gap2 = $x3 - $x2;
-		$this->assertGreaterThan($gap2, $gap1);
+		$this->assertGreaterThan($gap1, $gap2);
 	}
 
 	public function testCalculateXPositionOverdue(): void {

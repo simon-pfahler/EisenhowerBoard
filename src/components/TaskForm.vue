@@ -58,12 +58,11 @@ function formatDateForInput(date: Date): string {
 function validateForm(): boolean {
 	const errors: Record<string, string> = {}
 	
-	if (!formData.value.name.trim()) {
-		errors.name = 'Name is required'
-	}
-	
-	if (!formData.value.description.trim()) {
-		errors.description = 'Description is required'
+	// Name is optional but recommended
+	// At least one of name or description should be provided
+	if (!formData.value.name.trim() && !formData.value.description.trim()) {
+		errors.name = 'At least name or description is required'
+		errors.description = 'At least name or description is required'
 	}
 	
 	if (formData.value.importance < 0 || formData.value.importance > 100) {
@@ -131,12 +130,12 @@ function handleKeydown(e: KeyboardEvent) {
 				<form @submit.prevent="handleSubmit">
 					<!-- Name field -->
 					<div class="form-group">
-						<label for="task-name">Name *</label>
+						<label for="task-name">Name (optional)</label>
 						<input
 							id="task-name"
 							v-model="formData.name"
 							type="text"
-							placeholder="Task name"
+							placeholder="Short task name (optional)"
 							:class="{ 'has-error': formErrors.name }"
 							autofocus
 						/>
@@ -145,7 +144,7 @@ function handleKeydown(e: KeyboardEvent) {
 
 					<!-- Description field -->
 					<div class="form-group">
-						<label for="task-description">Description *</label>
+						<label for="task-description">Description (optional)</label>
 						<textarea
 							id="task-description"
 							v-model="formData.description"
@@ -154,6 +153,7 @@ function handleKeydown(e: KeyboardEvent) {
 							:class="{ 'has-error': formErrors.description }"
 						></textarea>
 						<span v-if="formErrors.description" class="error-message">{{ formErrors.description }}</span>
+						<p class="hint">At least one of name or description is required</p>
 					</div>
 
 					<!-- Importance field -->
@@ -279,6 +279,12 @@ function handleKeydown(e: KeyboardEvent) {
 	font-size: 12px;
 	margin-top: 4px;
 	display: block;
+}
+
+.hint {
+	font-size: 11px;
+	color: #666;
+	margin-top: 4px;
 }
 
 .slider-container {

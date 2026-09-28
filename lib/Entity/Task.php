@@ -119,9 +119,12 @@ class Task {
 		$now = $now ?? new DateTime();
 		$dueDate = $this->getDueDate();
 
-		// Calculate days until due (can be negative for overdue tasks)
-		$interval = $dueDate->diff($now);
-		$daysUntilDue = (float) $interval->format('%r%a'); // Signed days
+		// Calculate days until due using timestamps for accuracy
+		// DateInterval::format('%r%a') only counts full days, so we use timestamp difference
+		$timestampNow = $now->getTimestamp();
+		$timestampDue = $dueDate->getTimestamp();
+		$secondsUntilDue = $timestampDue - $timestampNow;
+		$daysUntilDue = $secondsUntilDue / (24 * 60 * 60); // Convert to days
 
 		// Use log(days + 1) to handle due dates at 0 or negative
 		// +1 prevents log(0) which is undefined

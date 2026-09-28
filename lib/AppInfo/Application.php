@@ -37,8 +37,10 @@ class Application extends App implements IBootstrap {
 			);
 		});
 
-		// Register migration for database setup
-		$context->registerMigration(\OCA\EisenhowerBoard\Migration\Version20250101000000::class);
+		// Register migration for database setup (Nextcloud 27+)
+		if (method_exists($context, 'registerMigration')) {
+			$context->registerMigration(\OCA\EisenhowerBoard\Migration\Version20250101000000::class);
+		}
 	}
 
 	public function boot(IBootContext $context): void {
