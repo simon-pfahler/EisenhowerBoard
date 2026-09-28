@@ -8,7 +8,6 @@
 /tests/.phpunit.cache/
 
 /node_modules/
-/css/*.chunk.css
 
 # Frontend build artifacts
 /js/*.mjs
