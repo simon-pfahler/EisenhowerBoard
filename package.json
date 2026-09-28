@@ -2,7 +2,6 @@
   "name": "eisenhowerboard",
   "version": "0.0.1",
   "license": "AGPL-3.0-or-later",
-  "type": "module",
   "scripts": {
     "build": "vite build",
     "dev": "vite --mode development build",
