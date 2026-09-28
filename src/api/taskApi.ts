@@ -14,11 +14,11 @@ interface Task {
 const appId = 'eisenhowerboard'
 
 /**
- * Build OCS URL for our app's API endpoints
+ * Build URL for our app's API endpoints
  * Uses relative path to work within Nextcloud's proxy
  */
 function buildApiUrl(endpoint: string): string {
-	return `/ocs/v2.php/apps/${appId}/${endpoint}`
+	return `/apps/${appId}/api/${endpoint}`
 }
 
 /**
@@ -33,7 +33,7 @@ async function ocsRequest<T>(
 	
 	const headers: Record<string, string> = {
 		'Content-Type': 'application/json',
-		'OCS-APIRequest': 'true',
+		'requesttoken': (window as any).OC?.requestToken || '',
 	}
 	
 	const config = {
@@ -72,7 +72,7 @@ async function ocsRequest<T>(
  * Get all tasks for the current user
  */
 export async function getTasks(): Promise<Task[]> {
-	return ocsRequest<Task[]>('get', 'api/tasks')
+	return ocsRequest<Task[]>('get', 'tasks')
 }
 
 /**
@@ -90,7 +90,7 @@ export async function createTask(
 		? dueDate 
 		: `${dueDate}T00:00:00`
 	
-	return ocsRequest<Task>('post', 'api/tasks', {
+	return ocsRequest<Task>('post', 'tasks', {
 		description,
 		importance,
 		dueDate: formattedDueDate,
@@ -101,7 +101,7 @@ export async function createTask(
  * Get a specific task by ID
  */
 export async function getTask(id: number): Promise<Task> {
-	return ocsRequest<Task>('get', `api/tasks/${id}`)
+	return ocsRequest<Task>('get', `tasks/${id}`)
 }
 
 /**
@@ -133,14 +133,14 @@ export async function updateTask(
 			: `${data.dueDate}T00:00:00`
 	}
 	
-	return ocsRequest<Task>('put', `api/tasks/${id}`, formattedData)
+	return ocsRequest<Task>('put', `tasks/${id}`, formattedData)
 }
 
 /**
  * Delete a task
  */
 export async function deleteTask(id: number): Promise<void> {
-	return ocsRequest<void>('delete', `api/tasks/${id}`)
+	return ocsRequest<void>('delete', `tasks/${id}`)
 }
 
 /**

@@ -12,12 +12,12 @@ use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
-use OCP\AppFramework\OCSController;
+use OCP\AppFramework\Controller;
 
 /**
  * API Controller for managing tasks in the Eisenhower Board.
  */
-class ApiController extends OCSController {
+class ApiController extends Controller {
 	private TaskService $taskService;
 
 	public function __construct(string $appName, \OCP\IRequest $request, TaskService $taskService) {
@@ -35,7 +35,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/api/tasks')]
 	public function listTasks(): DataResponse {
-		$userId = $this->userId;
+		$userId = $this->request->getUser();
 
 		if ($userId === null) {
 			return new DataResponse(
@@ -71,7 +71,7 @@ class ApiController extends OCSController {
 		int $importance,
 		string $dueDate
 	): DataResponse {
-		$userId = $this->userId;
+		$userId = $this->request->getUser();
 
 		if ($userId === null) {
 			return new DataResponse(
@@ -121,7 +121,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/api/tasks/{id}')]
 	public function getTask(int $id): DataResponse {
-		$userId = $this->userId;
+		$userId = $this->request->getUser();
 
 		if ($userId === null) {
 			return new DataResponse(
@@ -165,7 +165,7 @@ class ApiController extends OCSController {
 		?int $importance = null,
 		?string $dueDate = null
 	): DataResponse {
-		$userId = $this->userId;
+		$userId = $this->request->getUser();
 
 		if ($userId === null) {
 			return new DataResponse(
@@ -224,7 +224,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'DELETE', url: '/api/tasks/{id}')]
 	public function deleteTask(int $id): DataResponse {
-		$userId = $this->userId;
+		$userId = $this->request->getUser();
 
 		if ($userId === null) {
 			return new DataResponse(

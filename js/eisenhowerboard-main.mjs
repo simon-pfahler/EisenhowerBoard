@@ -15826,13 +15826,13 @@ const {
 } = axios;
 const appId = "eisenhowerboard";
 function buildApiUrl(endpoint) {
-  return `/ocs/v2.php/apps/${appId}/${endpoint}`;
+  return `/apps/${appId}/api/${endpoint}`;
 }
 async function ocsRequest(method, endpoint, data) {
   const url = buildApiUrl(endpoint);
   const headers = {
     "Content-Type": "application/json",
-    "OCS-APIRequest": "true"
+    "requesttoken": window.OC?.requestToken || ""
   };
   const config = {
     method,
@@ -15859,11 +15859,11 @@ async function ocsRequest(method, endpoint, data) {
   }
 }
 async function getTasks() {
-  return ocsRequest("get", "api/tasks");
+  return ocsRequest("get", "tasks");
 }
 async function createTask(description, importance, dueDate) {
   const formattedDueDate = dueDate.includes("T") ? dueDate : `${dueDate}T00:00:00`;
-  return ocsRequest("post", "api/tasks", {
+  return ocsRequest("post", "tasks", {
     description,
     importance,
     dueDate: formattedDueDate
@@ -15880,10 +15880,10 @@ async function updateTask(id, data) {
   if (data.dueDate !== void 0) {
     formattedData.dueDate = data.dueDate.includes("T") ? data.dueDate : `${data.dueDate}T00:00:00`;
   }
-  return ocsRequest("put", `api/tasks/${id}`, formattedData);
+  return ocsRequest("put", `tasks/${id}`, formattedData);
 }
 async function deleteTask(id) {
-  return ocsRequest("delete", `api/tasks/${id}`);
+  return ocsRequest("delete", `tasks/${id}`);
 }
 function apiTaskToFrontendTask(apiTask) {
   return {
