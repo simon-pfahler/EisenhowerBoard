@@ -35,7 +35,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/api/tasks')]
 	public function listTasks(): DataResponse {
-		$userId = $this->request->getUserId();
+		$userId = $this->getUser();
 		$tasks = $this->taskService->getAllTasks($userId);
 
 		$taskData = array_map(function (Task $task) {
@@ -63,7 +63,7 @@ class ApiController extends OCSController {
 		int $importance,
 		string $dueDate
 	): DataResponse {
-		$userId = $this->request->getUserId();
+		$userId = $this->getUser();
 
 		try {
 			$dueDateTime = new DateTime($dueDate);
@@ -106,7 +106,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'GET', url: '/api/tasks/{id}')]
 	public function getTask(int $id): DataResponse {
-		$userId = $this->request->getUserId();
+		$userId = $this->getUser();
 		$task = $this->taskService->getTask($id, $userId);
 
 		if ($task === null) {
@@ -142,7 +142,7 @@ class ApiController extends OCSController {
 		?int $importance = null,
 		?string $dueDate = null
 	): DataResponse {
-		$userId = $this->request->getUserId();
+		$userId = $this->getUser();
 
 		// Convert due date string to DateTime if provided
 		$dueDateTime = null;
@@ -194,7 +194,7 @@ class ApiController extends OCSController {
 	#[NoAdminRequired]
 	#[ApiRoute(verb: 'DELETE', url: '/api/tasks/{id}')]
 	public function deleteTask(int $id): DataResponse {
-		$userId = $this->request->getUserId();
+		$userId = $this->getUser();
 		$deleted = $this->taskService->deleteTask($id, $userId);
 
 		if (!$deleted) {

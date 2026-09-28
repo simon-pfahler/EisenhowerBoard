@@ -9,5 +9,15 @@ export default createAppConfig(
 		createEmptyCSSEntryPoints: true,
 		extractLicenseInformation: true,
 		thirdPartyLicense: false,
+		build: {
+			rollupOptions: {
+				output: {
+					// Use .js extension for all output files
+					entryFileNames: '[name].js',
+					chunkFileNames: '[name].js',
+					assetFileNames: '[name].[ext]',
+				},
+			},
+		},
 	},
 )
