@@ -2,11 +2,13 @@
 /*.iml
 
 /vendor/
+/vendor-bin/
 /vendor-bin/**/*
 
 /.php-cs-fixer.cache
 /tests/.phpunit.cache
 
 /node_modules/
+/css/*.chunk.css
 
 deploy.sh
