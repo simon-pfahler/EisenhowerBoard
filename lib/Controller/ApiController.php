@@ -36,6 +36,14 @@ class ApiController extends OCSController {
 	#[ApiRoute(verb: 'GET', url: '/api/tasks')]
 	public function listTasks(): DataResponse {
 		$userId = $this->userId;
+
+		if ($userId === null) {
+			return new DataResponse(
+				['error' => 'Authentication required'],
+				Http::STATUS_UNAUTHORIZED
+			);
+		}
+
 		$tasks = $this->taskService->getAllTasks($userId);
 
 		$taskData = array_map(function (Task $task) {
@@ -64,6 +72,13 @@ class ApiController extends OCSController {
 		string $dueDate
 	): DataResponse {
 		$userId = $this->userId;
+
+		if ($userId === null) {
+			return new DataResponse(
+				['error' => 'Authentication required'],
+				Http::STATUS_UNAUTHORIZED
+			);
+		}
 
 		try {
 			$dueDateTime = new DateTime($dueDate);
@@ -107,6 +122,14 @@ class ApiController extends OCSController {
 	#[ApiRoute(verb: 'GET', url: '/api/tasks/{id}')]
 	public function getTask(int $id): DataResponse {
 		$userId = $this->userId;
+
+		if ($userId === null) {
+			return new DataResponse(
+				['error' => 'Authentication required'],
+				Http::STATUS_UNAUTHORIZED
+			);
+		}
+
 		$task = $this->taskService->getTask($id, $userId);
 
 		if ($task === null) {
@@ -143,6 +166,13 @@ class ApiController extends OCSController {
 		?string $dueDate = null
 	): DataResponse {
 		$userId = $this->userId;
+
+		if ($userId === null) {
+			return new DataResponse(
+				['error' => 'Authentication required'],
+				Http::STATUS_UNAUTHORIZED
+			);
+		}
 
 		// Convert due date string to DateTime if provided
 		$dueDateTime = null;
@@ -195,6 +225,14 @@ class ApiController extends OCSController {
 	#[ApiRoute(verb: 'DELETE', url: '/api/tasks/{id}')]
 	public function deleteTask(int $id): DataResponse {
 		$userId = $this->userId;
+
+		if ($userId === null) {
+			return new DataResponse(
+				['error' => 'Authentication required'],
+				Http::STATUS_UNAUTHORIZED
+			);
+		}
+
 		$deleted = $this->taskService->deleteTask($id, $userId);
 
 		if (!$deleted) {
