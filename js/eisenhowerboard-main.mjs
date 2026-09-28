@@ -15826,12 +15826,13 @@ const {
 } = axios;
 const appId = "eisenhowerboard";
 function buildApiUrl(endpoint) {
-  return `/apps/${appId}/api/${endpoint}`;
+  return `/ocs/v2.php/apps/${appId}/${endpoint}`;
 }
 async function ocsRequest(method, endpoint, data) {
   const url = buildApiUrl(endpoint);
   const headers = {
     "Content-Type": "application/json",
+    "OCS-APIRequest": "true",
     "requesttoken": window.OC?.requestToken || ""
   };
   const config = {

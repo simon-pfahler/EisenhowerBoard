@@ -12,12 +12,12 @@ use OCP\AppFramework\Http\Attribute\ApiRoute;
 use OCP\AppFramework\Http\Attribute\NoAdminRequired;
 use OCP\AppFramework\Http\DataResponse;
 use OCP\IRequest;
-use OCP\AppFramework\Controller;
+use OCP\AppFramework\OCSController;
 
 /**
  * API Controller for managing tasks in the Eisenhower Board.
  */
-class ApiController extends Controller {
+class ApiController extends OCSController {
 	private TaskService $taskService;
 
 	public function __construct(string $appName, \OCP\IRequest $request, TaskService $taskService) {
@@ -33,9 +33,9 @@ class ApiController extends Controller {
 	 * 200: List of tasks returned
 	 */
 	#[NoAdminRequired]
-	#[ApiRoute(verb: 'GET', url: '/api/tasks')]
+	#[ApiRoute(verb: 'GET', url: '/tasks')]
 	public function listTasks(): DataResponse {
-		$userId = $this->request->getUser();
+		$userId = $this->userId;
 
 		if ($userId === null) {
 			return new DataResponse(
@@ -65,13 +65,13 @@ class ApiController extends Controller {
 	 * 400: Invalid input data
 	 */
 	#[NoAdminRequired]
-	#[ApiRoute(verb: 'POST', url: '/api/tasks')]
+	#[ApiRoute(verb: 'POST', url: '/tasks')]
 	public function createTask(
 		string $description,
 		int $importance,
 		string $dueDate
 	): DataResponse {
-		$userId = $this->request->getUser();
+		$userId = $this->userId;
 
 		if ($userId === null) {
 			return new DataResponse(
@@ -119,9 +119,9 @@ class ApiController extends Controller {
 	 * 404: Task not found
 	 */
 	#[NoAdminRequired]
-	#[ApiRoute(verb: 'GET', url: '/api/tasks/{id}')]
+	#[ApiRoute(verb: 'GET', url: '/tasks/{id}')]
 	public function getTask(int $id): DataResponse {
-		$userId = $this->request->getUser();
+		$userId = $this->userId;
 
 		if ($userId === null) {
 			return new DataResponse(
@@ -158,14 +158,14 @@ class ApiController extends Controller {
 	 * 404: Task not found
 	 */
 	#[NoAdminRequired]
-	#[ApiRoute(verb: 'PUT', url: '/api/tasks/{id}')]
+	#[ApiRoute(verb: 'PUT', url: '/tasks/{id}')]
 	public function updateTask(
 		int $id,
 		?string $description = null,
 		?int $importance = null,
 		?string $dueDate = null
 	): DataResponse {
-		$userId = $this->request->getUser();
+		$userId = $this->userId;
 
 		if ($userId === null) {
 			return new DataResponse(
@@ -222,9 +222,9 @@ class ApiController extends Controller {
 	 * 404: Task not found
 	 */
 	#[NoAdminRequired]
-	#[ApiRoute(verb: 'DELETE', url: '/api/tasks/{id}')]
+	#[ApiRoute(verb: 'DELETE', url: '/tasks/{id}')]
 	public function deleteTask(int $id): DataResponse {
-		$userId = $this->request->getUser();
+		$userId = $this->userId;
 
 		if ($userId === null) {
 			return new DataResponse(

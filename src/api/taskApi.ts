@@ -14,11 +14,11 @@ interface Task {
 const appId = 'eisenhowerboard'
 
 /**
- * Build URL for our app's API endpoints
+ * Build OCS URL for our app's API endpoints
  * Uses relative path to work within Nextcloud's proxy
  */
 function buildApiUrl(endpoint: string): string {
-	return `/apps/${appId}/api/${endpoint}`
+	return `/ocs/v2.php/apps/${appId}/${endpoint}`
 }
 
 /**
@@ -33,6 +33,7 @@ async function ocsRequest<T>(
 	
 	const headers: Record<string, string> = {
 		'Content-Type': 'application/json',
+		'OCS-APIRequest': 'true',
 		'requesttoken': (window as any).OC?.requestToken || '',
 	}
 	
