@@ -178,9 +178,9 @@ final class TaskServiceTest extends TestCase {
 		$y = $this->service->calculateYPosition($task, 800, 40);
 
 		// Importance 50 should be in the middle of the board
-		// With 800px height and 40px padding, middle is around 440
-		$this->assertGreaterThan(400, $y);
-		$this->assertLessThan(500, $y);
+		// With 800px height and 40px padding:
+		// Y = 40 + ((100 - 50) / 100) * (800 - 80) = 40 + 0.5 * 720 = 400
+		$this->assertEquals(400.0, $y);
 	}
 
 	public function testCalculateYPositionTop(): void {

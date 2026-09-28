@@ -163,10 +163,11 @@ final class TaskMapperTest extends TestCase {
 	private function createMockResultSet(array $rows): object {
 		$result = $this->createMock(\Doctrine\DBAL\Result::class);
 		
-		$result->method('fetchAssociative')->willReturnOnConsecutiveCalls(
-			...$rows,
-			false // Return false after all rows are fetched
-		);
+		// Build the consecutive calls array
+		$calls = $rows;
+		$calls[] = false; // Return false after all rows are fetched
+		
+		$result->method('fetchAssociative')->willReturnOnConsecutiveCalls(...$calls);
 
 		return $result;
 	}

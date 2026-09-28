@@ -64,6 +64,7 @@ export const useTaskStore = () => {
 
 	/**
 	 * Create a new task
+	 * Maps name to description for API compatibility
 	 */
 	async function addTask(
 		name: string,
@@ -75,9 +76,14 @@ export const useTaskStore = () => {
 		error.value = null
 
 		try {
-			const apiTask = await createTask(description, importance, dueDate)
+			// Map name to description for API (backend only has description field)
+			// If name is provided and description is empty, use name as description
+			const finalDescription = description || name
+			
+			const apiTask = await createTask(finalDescription, importance, dueDate)
 			const newTask = apiTaskToFrontendTask(apiTask) as FrontendTask
-			// Use the name field if provided
+			
+			// Set name from the provided name parameter
 			if (name) {
 				newTask.name = name
 			}
@@ -94,6 +100,7 @@ export const useTaskStore = () => {
 
 	/**
 	 * Update an existing task
+	 * Maps name to description for API compatibility
 	 */
 	async function editTask(
 		id: number,
@@ -108,17 +115,23 @@ export const useTaskStore = () => {
 		error.value = null
 
 		try {
-			// Map name to description for API
+			// Map name to description for API (backend only has description field)
 			const updateData: any = {}
+			
+			// If name is provided, update description with name (or combine with description)
 			if (data.name !== undefined) {
 				updateData.description = data.name
 			}
+			
 			if (data.description !== undefined) {
+				// If both name and description provided, description takes precedence
 				updateData.description = data.description
 			}
+			
 			if (data.importance !== undefined) {
 				updateData.importance = data.importance
 			}
+			
 			if (data.dueDate !== undefined) {
 				updateData.dueDate = data.dueDate
 			}
