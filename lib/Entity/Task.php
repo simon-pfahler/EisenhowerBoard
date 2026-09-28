@@ -182,14 +182,17 @@ class Task {
 	 * @return Task
 	 */
 	public static function fromDatabaseRow(array $row): Task {
+		$createdAt = $row['created_at'] ? new DateTime($row['created_at']) : null;
+		$updatedAt = $row['updated_at'] ? new DateTime($row['updated_at']) : null;
+		
 		return new Task(
 			id: (int) ($row['id'] ?? null),
 			userId: $row['user_id'],
 			description: $row['description'],
 			importance: (int) $row['importance'],
 			dueDate: new DateTime($row['due_date']),
-			createdAt: new DateTime($row['created_at']),
-			updatedAt: new DateTime($row['updated_at']),
+			createdAt: $createdAt,
+			updatedAt: $updatedAt,
 		);
 	}
 }

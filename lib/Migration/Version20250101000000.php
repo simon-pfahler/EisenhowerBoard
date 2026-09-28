@@ -48,11 +48,10 @@ class Version20250101000000 extends SimpleMigrationStep {
 			]);
 			$table->addColumn('created_at', 'datetime', [
 				'notnull' => true,
-				'default' => '(now())',
+				'default' => 'CURRENT_TIMESTAMP',
 			]);
 			$table->addColumn('updated_at', 'datetime', [
-				'notnull' => true,
-				'default' => '(now())',
+				'notnull' => false,
 			]);
 
 			$table->setPrimaryKey(['id']);
