@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import NcAppContent from '@nextcloud/vue/components/NcAppContent'
 import NcContent from '@nextcloud/vue/components/NcContent'
+import TaskBoard from './TaskBoard.vue'
 </script>
 
 <template>
 	<NcContent app-name="eisenhowerboard">
 		<NcAppContent :class="$style.content">
-			<h2>Hello world!</h2>
+			<TaskBoard />
 		</NcAppContent>
 	</NcContent>
 </template>
@@ -14,7 +15,7 @@ import NcContent from '@nextcloud/vue/components/NcContent'
 <style module>
 .content {
 	display: flex;
-	justify-content: center;
+	flex-direction: column;
 	margin: 16px;
 }
 </style>
