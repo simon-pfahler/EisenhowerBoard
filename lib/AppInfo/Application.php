@@ -11,8 +11,8 @@ use OCP\AppFramework\App;
 use OCP\AppFramework\Bootstrap\IBootContext;
 use OCP\AppFramework\Bootstrap\IBootstrap;
 use OCP\AppFramework\Bootstrap\IRegistrationContext;
+use OCP\IDBConnection;
 use OCP\IL10N;
-use OCP\IServerContainer;
 
 class Application extends App implements IBootstrap {
 	public const APP_ID = 'eisenhowerboard';
@@ -25,7 +25,7 @@ class Application extends App implements IBootstrap {
 		// Register mapper - provides database operations for tasks
 		$context->registerService(TaskMapper::class, function ($container) {
 			return new TaskMapper(
-				$container->get(IServerContainer::class)->getDatabaseConnection()
+				$container->get(IDBConnection::class)
 			);
 		});
 
